@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HealthTree ID3 - Dự đoán sức khỏe</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="eyebrow">ỨNG DỤNG HỌC MÁY • DECISION TREE</div>
+    <h1>HealthTree <span>ID3</span></h1>
+    <p>Phân lớp dữ liệu sức khỏe bằng thuật toán cây quyết định ID3</p>
+  </div>
+</header>
+<main class="container">
+  <div class="warning"><b>Lưu ý:</b> Đây là đồ án minh họa thuật toán, không phải công cụ chẩn đoán y khoa. Tất cả dữ liệu mẫu trong dự án là dữ liệu mô phỏng, không phải hồ sơ bệnh nhân thực. Không sử dụng kết quả để tự chẩn đoán hoặc điều trị.</div>
+
+  <section class="card profile-bar">
+    <div class="field grow">
+      <label for="profileSelect">Chọn bộ bệnh / bài toán</label>
+      <select id="profileSelect"></select>
+      <small id="profileDescription"></small>
+    </div>
+    <div class="button-group">
+      <button class="btn light" id="restoreBtn">Khôi phục dữ liệu mẫu</button>
+    </div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="predict">Dự đoán</button>
+    <button class="tab" data-tab="dataset">Dữ liệu huấn luyện</button>
+    <button class="tab" data-tab="tree">Cây ID3 & Information Gain</button>
+    <button class="tab" data-tab="custom">Tùy chỉnh bài toán</button>
+  </nav>
+
+  <section class="tab-panel active" id="predict">
+    <div class="card">
+      <div class="section-heading"><div><h2>Thông tin đầu vào</h2><p>Chọn giá trị của 5 thuộc tính để phân lớp.</p></div><span class="pill">5 thuộc tính</span></div>
+      <div class="form-grid" id="predictFields"></div>
+      <div class="button-group">
+        <button class="btn primary" id="predictBtn">Chạy dự đoán ID3</button>
+        <button class="btn light" id="clearResultBtn">Xóa kết quả</button>
+      </div>
+      <div id="result" class="result hidden"></div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </section>
+
+  <section class="tab-panel" id="dataset">
+    <div class="card">
+      <div class="section-heading"><div><h2>Dữ liệu huấn luyện</h2><p>Chỉnh sửa dữ liệu và nhấn huấn luyện lại để cập nhật cây.</p></div></div>
+      <div class="table-wrap"><table id="dataTable"></table></div>
+      <div class="button-group">
+        <button class="btn primary" id="addRowBtn">＋ Thêm mẫu</button>
+        <button class="btn light" id="exportBtn">Xuất CSV</button>
+        <label class="btn light file-label">Nhập CSV<input type="file" id="csvFile" accept=".csv,text/csv"></label>
+        <button class="btn light" id="trainBtn">Huấn luyện lại</button>
+      </div>
+      <p class="hint">CSV cần có 6 cột: 5 thuộc tính và cột nhãn kết quả cuối cùng. Khi nhập CSV, ứng dụng sẽ thay dữ liệu hiện tại.</p>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tree">
+    <div class="card">
+      <div class="section-heading"><div><h2>Cây quyết định được sinh ra</h2><p>Nút trong biểu diễn thuộc tính, nhánh biểu diễn giá trị, nút lá là lớp dự đoán.</p></div></div>
+      <div id="treeView" class="tree"></div>
+    </div>
+    <div class="card">
+      <h2>Information Gain tại nút gốc</h2>
+      <p class="hint">ID3 chọn thuộc tính có Gain lớn nhất để làm nút phân chia tiếp theo.</p>
+      <div id="gainView"></div>
+      <p id="entropyView" class="hint"></p>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="custom">
+    <div class="card">
+      <h2>Tùy chỉnh 5 thuộc tính</h2>
+      <p class="hint">Đổi tên thuộc tính và danh sách giá trị. Sau đó nhập bộ CSV mới có cùng 5 cột thuộc tính và 1 cột kết quả.</p>
+      <div id="attributeEditor"></div>
+      <div class="field target-field"><label for="targetName">Tên cột kết quả</label><input id="targetName" value="Kết quả"></div>
+      <div class="button-group"><button class="btn primary" id="saveAttributesBtn">Lưu cấu hình</button></div>
+      <p id="customMessage" class="hint"></p>
+    </div>
+  </section>
+</main>
+<footer><div class="container">HealthTree ID3 • Bài tập phân lớp dữ liệu • Python + Flask</div></footer>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
